@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from '../../hooks/form-hook';
 import { useHttpClient } from '../../hooks/http-hook';
 import Card from '../../shared/components/Card/Card';
@@ -9,10 +11,13 @@ import {
   VALIDATOR_EMAIL,
   VALIDATOR_MINLENGTH,
 } from '../../shared/utils/input-validators.js';
+import { authActions } from '../../store/auth';
 
 import './Auth.css';
 
 const Auth = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [isLoginMode, setisLoginMode] = useState(false);
   const { isLoading, error, sendRequest, resetError } = useHttpClient();
   const { formState, inputHandler } = useForm(
@@ -32,54 +37,53 @@ const Auth = () => {
   const submitHandler = async event => {
     event.preventDefault();
     resetError();
+    let graphQlQuery;
     if (!isLoginMode) {
-      const graphqlQuery = {
+      graphQlQuery = {
         query: `
-                mutation{
-                    createUser(userInput:{email:"${formState.inputs.email.value}", password:"${formState.inputs.password.value}"}) {
-                        _id
-                        email
-                        password
-                    }   
-                }
-            `,
+          mutation{
+            createUser(userInput:{email:"${formState.inputs.email.value}", password:"${formState.inputs.password.value}"}) {
+              _id
+              email
+            }   
+          }
+        `,
       };
-      try {
-        const data = await sendRequest(
-          'http://localhost:5000/graphql',
-          'POST',
-          JSON.stringify(graphqlQuery),
-          {
-            'Content-Type': 'application/json',
-          }
-        );
-
-        console.log(data);
-      } catch (error) {}
     } else {
-      try {
-        const graphQlQuery = {
-          query: `
-            {
-              login(email: "${formState.inputs.email.value}", password: "${formState.inputs.password.value}"){
-                userId
-                token
-                tokenExpiration
-              }
-            }
-          `,
-        };
-        const data = await sendRequest(
-          'http://localhost:5000/graphql',
-          'POST',
-          JSON.stringify(graphQlQuery),
-          {
-            'Content-Type': 'application/json',
+      graphQlQuery = {
+        query: `
+        {
+          login(email: "${formState.inputs.email.value}", password: "${formState.inputs.password.value}"){
+            userId
+            token
+            tokenExpiration
           }
-        );
-        console.log(data);
-      } catch (error) {}
+        }
+        `,
+      };
     }
+    try {
+      const data = await sendRequest(
+        'http://localhost:5000/graphql',
+        'POST',
+        JSON.stringify(graphQlQuery),
+        {
+          'Content-Type': 'application/json',
+        }
+      );
+      const {
+        data: { login },
+      } = data;
+      dispatch(
+        authActions.login({
+          userId: login.userId,
+          token: login.token,
+          expiration: login.tokenExpiration,
+        })
+      );
+      navigate('/events', { replace: true });
+      console.log(login);
+    } catch (error) {}
   };
 
   const switchModeHandler = () => {
