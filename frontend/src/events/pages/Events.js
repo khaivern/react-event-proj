@@ -90,6 +90,7 @@ const Events = () => {
           onConfirm={resetError}
           onCancel={resetError}
           error={error}
+          confirmText='Confirm'
         >
           <p>{error}</p>
         </Modal>

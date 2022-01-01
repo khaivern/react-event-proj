@@ -87,6 +87,7 @@ const EventForm = props => {
           canConfirm
           onConfirm={resetError}
           error={error}
+          confirmText='Confirm'
         >
           <p>Creating an event failed!</p>
           <p>Cause: {error}</p>
@@ -99,6 +100,7 @@ const EventForm = props => {
         onCancel={props.onCancel}
         onConfirm={modalConfirmHandler}
         disabled={!formState.overall}
+        confirmText='Confirm'
       >
         <form>
           <Input
