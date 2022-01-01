@@ -1,0 +1,25 @@
+.bookings__list {
+  list-style: none;
+}
+
+.bookings__item {
+  margin: 0.5rem auto;
+  padding: 0.5rem;
+  border: 1px solid black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  width: 70%;
+}
+
+.bookings_item-actions button {
+  background: #e9fd2e;
+  font: inherit;
+  border: 1px solid #646e02;
+  border-radius: 3px;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.26);
+  padding: 0.25rem 1rem;
+  margin-right: 1rem;
+  cursor: pointer;
+}

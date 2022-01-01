@@ -17,3 +17,10 @@
   margin: 0;
   font-size: 1.1rem;
 }
+
+.events-content {
+  width: 50rem;
+  max-width: 70%;
+  text-align: center;
+  margin: 5rem auto;
+}

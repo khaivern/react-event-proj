@@ -18,7 +18,7 @@ import './Auth.css';
 const Auth = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [isLoginMode, setisLoginMode] = useState(false);
+  const [isLoginMode, setisLoginMode] = useState(true);
   const { isLoading, error, sendRequest, resetError } = useHttpClient();
   const { formState, inputHandler } = useForm(
     {
@@ -71,19 +71,28 @@ const Auth = () => {
           'Content-Type': 'application/json',
         }
       );
-      const {
-        data: { login },
-      } = data;
-      dispatch(
-        authActions.login({
-          userId: login.userId,
-          token: login.token,
-          expiration: login.tokenExpiration,
-        })
-      );
-      navigate('/events', { replace: true });
-      console.log(login);
-    } catch (error) {}
+      if (isLoginMode) {
+        const login = data.data.login;
+        if (!login) {
+          throw new Error('Failed to Authenticate');
+        }
+
+        dispatch(
+          authActions.login({
+            userId: login.userId,
+            token: login.token,
+            expiration: login.tokenExpiration,
+          })
+        );
+        navigate('/events', { replace: true });
+      } else {
+        if (data.errors) {
+          console.log(data.errors[0].message);
+          throw new Error('Failed to authenticate');
+        }
+        setisLoginMode(true);
+      }
+    } catch (err) {}
   };
 
   const switchModeHandler = () => {
@@ -111,7 +120,9 @@ const Auth = () => {
   return (
     <>
       {error && errorModal}
+
       <form className='auth-form' onSubmit={submitHandler}>
+        <h1>{isLoginMode ? 'LOGIN' : 'SIGNUP'} </h1>
         <Input
           element='input'
           type='email'

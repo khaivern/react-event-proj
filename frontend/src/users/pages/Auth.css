@@ -8,6 +8,11 @@
   box-shadow: 0 2px 8px rgba(255, 255, 255, 0.507);
 }
 
+.auth-form h1 {
+  text-align: center;
+  color: #b64300;
+}
+
 .form-actions button,
 .btn {
   background: #e9fd2e;
@@ -30,7 +35,10 @@
 
 .form-actions button:disabled,
 .form-actions button:hover:disabled,
-.form-actions button:active:disabled {
+.form-actions button:active:disabled,
+.btn:disabled,
+.btn:hover:disabled,
+.btn:active:disabled {
   background: #ccc;
   color: #979797;
   border: #ccc;

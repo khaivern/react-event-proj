@@ -1,0 +1,34 @@
+.event-item {
+  width: 90%;
+  margin: 1.2rem auto;
+}
+
+.event-item__info {
+  padding: 0 1rem;
+  text-align: center;
+}
+
+.event-item__info h2 {
+  text-align: left;
+  margin: 2px 0 0 2px;
+  font-size: 1.7rem;
+  color: #830404;
+}
+
+.event-item__main-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.event-item__action p {
+  margin: 0;
+}
+
+.event-item__action button {
+  background: #cecece;
+  padding: 0.5rem;
+  margin: 1rem 0;
+  border-color: black;
+  cursor: pointer;
+}

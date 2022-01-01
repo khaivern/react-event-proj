@@ -12,7 +12,11 @@ const Modal = props => {
     <>
       <Backdrop onCancel={props.onCancel}></Backdrop>
       <div className='modal'>
-        <header className='modal__header'>
+        <header
+          className={`modal__header ${
+            props.error ? 'modal__header--error' : ''
+          }`}
+        >
           <h1>{props.title}</h1>
         </header>
         <section className='modal__content'>{props.children}</section>
@@ -23,8 +27,12 @@ const Modal = props => {
             </button>
           )}
           {props.canConfirm && (
-            <button className='btn' onClick={props.onConfirm}>
-              Confirm
+            <button
+              className='btn'
+              onClick={props.onConfirm}
+              disabled={props.disabled}
+            >
+              {props.confirmText}
             </button>
           )}
         </section>

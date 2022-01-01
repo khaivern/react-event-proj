@@ -1,0 +1,42 @@
+.events-list {
+  list-style: none;
+  margin: 1rem auto;
+  padding: 1rem;
+  width: 90%;
+  max-width: 40rem;
+  box-shadow: 1px 2px 8px rgba(255, 255, 255, 0.25);
+  border-radius: 5px;
+}
+
+.events-list h1 {
+  color: white;
+}
+
+.events-list__background {
+  background: #b64300;
+}
+
+.event-modal__details h2 {
+  text-align: center;
+}
+
+.event-modal__details h3 {
+  text-align: right;
+}
+
+.detail--header {
+  display: inline-block;
+  vertical-align: center;
+  width: 30%;
+}
+
+.detail--values {
+  display: inline-block;
+  vertical-align: center;
+  width: 30%;
+}
+
+.event-modal__admission {
+  margin: 0 3rem;
+  text-align: right;
+}
